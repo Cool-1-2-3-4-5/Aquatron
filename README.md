@@ -34,6 +34,8 @@
 ---
 
 ## Project Overview
+![Front of Robot](images/front.png)
+![Back of Robot](images/back.png)
 
 Aquatron is a fully autonomous irrigation robot that maps a 3x3 grid of plants, identifies each plant by the color of its pot, and waters each plant for a predetermined amount of time based on that color. It was designed and built for the Group Design Project in Term 1A of Mechatronics Engineering at the University of Waterloo.
 
