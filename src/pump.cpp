@@ -1,4 +1,6 @@
 #include "pump.hpp"
+
+// Create the pump motor and set its default behavior for the watering routine.
 Pump::Pump(char PumpMotor_port) : PumpMotor(PumpMotor_port, false)
 {
     Brain.Screen.printAt(10, 50, "Pump Initialized!");
@@ -6,13 +8,17 @@ Pump::Pump(char PumpMotor_port) : PumpMotor(PumpMotor_port, false)
     PumpMotor.setStopping(brakeType::hold);
     PumpMotor.setVelocity(0, percent);
 }
+
 Pump::~Pump()
 {
 }
+
 void Pump::stop()
 {
     PumpMotor.stop();
 }
+
+// Run the pump for a measured amount of time to water the plant.
 void Pump::PourWater(int seconds)
 {
     const int adjustment = 3;

@@ -1,24 +1,21 @@
 #include "vex.h"
 using namespace vex;
-brain Brain;
 
+// Main robot routine: explore the field, locate each plant color in sequence,
+// water it, and return to the starting position before continuing.
 int main()
 {
+    brain Brain;
     Drivetrain drive(PORT7, PORT12, PORT1, PORT6, PORT9);
     Pump PumpMotor(PORT10);
-    
+
+    // Set up the state used for the plant-search and watering loop.
     drive.setGrid(3, 3);
     int old_grid[3][3] = {};
     int grid[3][3] = {};
     bool visit_Array[3][3] = {};
     int current_x = 0;
     int current_y = 0;
-    drive.touchandgo();
-    drive.dfs(old_grid, current_x, current_y, visit_Array);
-    drive.array_changer(old_grid,grid);
-    Brain.Screen.clearScreen();
-    wait(2, seconds);
-
     bool finalcheck = true;
     bool verify[3][3] = {};
     int movement[50] = {0};
@@ -37,17 +34,23 @@ int main()
     int wanted_y = 0;
     int secondcnt = 0;
     int finalcnt = 0;
-    int r = 0;
+    int deadcnt = 0;
     int water_time = 0;
     int plant_color = 0;
-    for (int i = 0; i < 50; i++)
-    {
-        movement[i] = 0;
-        dead[i] = 0;
-    }
-
+    int going_index = 0;
+    int index = 0;
+    bool check = true;
+    int direction = 0;
+    // Wait for the start signal and begin the autonomous routine.
+    drive.touchandgo();
+    drive.dfs(old_grid, current_x, current_y, visit_Array);
+    drive.array_changer(old_grid,grid);
+    Brain.Screen.clearScreen();
+    wait(2, seconds);
     for (int color_to_find = 1; color_to_find <= 4; color_to_find++)
     {
+        // Reset state for the next plant color before searching again.
+        check = true;
         finalcheck = true;
         numcnt = 0;
         x_pos = 0;
@@ -57,6 +60,9 @@ int main()
         cur_x = 0;
         cur_y = 0;
         verifycnt = 0;
+        direction = 0;
+        secondcnt = 0;
+        deadcnt = 0;
         for (int i = 0; i < 50; i++)
         {
             movement[i] = 0;
@@ -71,12 +77,12 @@ int main()
                 verify[i][j] = false;
             }
         }
-        drive.index_finder(wanted_x, wanted_y, grid, color_to_find);
-        // reset
-        bool check = false;
+        // Locate the target color on the known grid and confirm it exists.
+        drive.index_finder(wanted_x, wanted_y, grid, color_to_find, check);
         Brain.Screen.printAt(10, 50, "Found at [%d][%d]", wanted_x, wanted_y);
         wait(1, seconds);
         Brain.Screen.clearScreen();
+        // Only continue if the color was actually found on the map.
         if (wanted_x >= 0 && wanted_y >= 0 && wanted_x < 3 && wanted_y < 3 && check)
         {
             Brain.Screen.clearScreen();
@@ -84,27 +90,24 @@ int main()
             Brain.Screen.printAt(10, 50, "Found at [%d][%d]", wanted_x, wanted_y);
             wait(2, seconds);
             Brain.Screen.clearScreen();
-
-            drive.mapping(grid, numcnt, finalcheck, x_pos, y_pos, new_x, new_y, verify, verifycnt, cur_x, cur_y, movement, dead, wanted_x, wanted_y);
-            secondcnt = 1;
-            r = 0;
-            for (int i = 0; i < 50; i++)
-            {
-                if (dead[i] == 1)
-                {
-                    r++;
-                }
-            }
-            while (movement[secondcnt - 1] != 0)
+            // Plan the shortest valid route from the robot to the target plant.
+            drive.mapping(grid, numcnt, finalcheck, x_pos, y_pos, new_x, new_y, verify, verifycnt, movement, dead, wanted_x, wanted_y);
+            // Count the number of movement steps in the planned path.
+            while (movement[secondcnt] != 0)
             {
                 secondcnt++;
             }
-            secondcnt--;
-
-            finalcnt = secondcnt - r;
-
-            // Create going path (without dead ends)
-            int going_index = 0;
+            // Count dead-end moves so they can be removed from the final route.
+            for (int i = 0; i < secondcnt; i++)
+            {
+                if (dead[i] == 1)
+                {
+                    deadcnt++;
+                }  
+            }
+            // Keep only the useful route, leaving out useless backtracking.
+            finalcnt = secondcnt - deadcnt;
+            going_index = 0;
             for (int j = 0; j < secondcnt; j++)
             {
                 if (dead[j] != 1)
@@ -113,28 +116,26 @@ int main()
                     going_index++;
                 }
             }
-
-            // Create return path (reversed and flipped directions)
-            int index = 0;
+            // Build the return path by reversing the travel directions.
+            index = 0;
             for (int i = finalcnt - 1; i >= 0; i--)
             {
-                int direction = going[i];
-
+                direction = going[i];
                 if (direction == 1)
                 {
-                    coming[index] = 2; // right --> left
+                    coming[index] = 2;
                 }
                 else if (direction == 2)
                 {
-                    coming[index] = 1; // left --> right
+                    coming[index] = 1;
                 }
                 else if (direction == 3)
                 {
-                    coming[index] = 4; // down --> up
+                    coming[index] = 4;
                 }
                 else if (direction == 4)
                 {
-                    coming[index] = 3; // up --> down
+                    coming[index] = 3;
                 }
                 else
                 {
@@ -146,42 +147,43 @@ int main()
             Brain.Screen.clearScreen();
             Brain.Screen.printAt(10, 50, "Path calculated!");
             Brain.Screen.printAt(10, 70, "Steps: %d", finalcnt);
+            
             wait(2, seconds);
             Brain.Screen.clearScreen();
+            // Show the intended path one step at a time for debugging.
             for (int i = 0; i < finalcnt; i++)
             {
                 Brain.Screen.printAt(10, 50, "This is path: %d", going[i]);
                 wait(1, seconds);
                 Brain.Screen.clearScreen();
-            }
-
-            // Navigate to plant
-            
+            }            
+            // Drive to the target plant following the calculated route.
             drive.GoToPos(going, finalcnt);
-            
-            // Water the plant
+            // Look up the plant color and convert it to a watering duration.
             plant_color = grid[wanted_x][wanted_y];
             water_time = drive.colourtotime(plant_color);
             Brain.Screen.clearScreen();
             Brain.Screen.printAt(10, 50, "Watering plant...");
             Brain.Screen.printAt(10, 70, "Color: %d Time: %d", plant_color, water_time);
+            // Water the plant for the correct amount of time.
             PumpMotor.PourWater(water_time);
             wait(1, seconds);
-
-            // Return home
             Brain.Screen.clearScreen();
             Brain.Screen.printAt(10, 50, "Returning home...");
             wait(1, seconds);
+            // Return to the start and reset the robot heading.
             drive.comeHome(coming, finalcnt);
             drive.PIDturn(0);
         }
         else
         {
+            // The target color was not detected in the grid.
             Brain.Screen.clearScreen();
             Brain.Screen.printAt(10, 50, "Color %d not Found!", color_to_find);
             wait(1, seconds);
         }
     }
+    // Every planned plant has been watered; finish the run.
     Brain.Screen.clearScreen();
     Brain.Screen.printAt(10, 50, "All plants watered!");
     Brain.Screen.printAt(10, 50, "for today!");
