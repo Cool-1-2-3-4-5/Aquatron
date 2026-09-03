@@ -1,4 +1,4 @@
-# Aquatron Irrigation Robot
+<img width="1207" height="787" alt="image" src="https://github.com/user-attachments/assets/41d1de82-50e3-4ebc-a01f-aa4b0e35ebf2" /># Aquatron Irrigation Robot
 
 **Platform:** VEX IQ 2nd Generation (IQ2)
 **Language:** C++
@@ -174,14 +174,13 @@ The pump housing has three parts. The bottom housing holds the rotor assembly an
 #### Tube Retention Fixes
 
 ![Rubber tube](images/tube.png)
+![Tube slippage](images/issues.png)
 
-During testing, the motor would sometimes pull the tube instead of the water, causing the tube to curl up and stall the motor. Two fixes were applied. The tube exterior was wrapped with tape to increase its outer diameter so it could not slide freely through the pump. The tube was also hot glued onto the water bottle cap to prevent it from moving at the inlet.
-
-#### Gear Ratio
-
-Several gear ratios were tested: 1:2, 1:3, 1:1.5, and 1:1.25. Only the 1:1.25 ratio provided enough torque to compress the tube without stalling the motor.
+An issue the group faced was that, when the motor drove the rotor assembly, the tube could slip off when it moved upwards. To fix this, the upper wall for the rotor assembly was redesigned to have a diameter that would extend to the ends of the flanged parts of the bearings, preventing the tube from coming off the roller. The original gap between the rotor assembly wall and the outer wall was large enough for the tube to get stuck. Additionally, during the final stages of testing, the motor would sometimes pull the tube instead of the water, causing the tube to curl up and stall the motor. Two fixes were applied. The tube exterior was wrapped with tape to increase its outer diameter so it could not slide freely through the pump. The tube was also hot glued onto the water bottle cap to prevent it from moving at the inlet.
 
 #### Flow Rate
+
+![Flowrate Calculation](images/flowrate.png)
 
 The pump achieves a measured flow rate of 73.75 mL/min. This was verified by timing how long the pump took to fill half a cup (approximately 118 mL), which took 1 minute and 36 seconds. The hand-calculated predicted flow rate based on tube dimensions, roller geometry, motor speed, and occlusion volume was approximately 80 mL/min.
 
@@ -232,6 +231,9 @@ Aquatron-main/
 ---
 
 ## Software Architecture
+
+
+![Code Flowchart](images/flowchart.png)
 
 The software is organized using Object-Oriented Programming. Two classes encapsulate all robot behavior.
 
