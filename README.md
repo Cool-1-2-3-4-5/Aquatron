@@ -663,8 +663,6 @@ Teaching staff in MTE 100 and MTE 121 at the University of Waterloo.
 
 Forrest and Griffin, the group's evaluators, assisted with conceptualizing and working through design problems.
 
-GitHub Copilot was used to debug the DFS function (`drivetrain.cpp::dfs`) and to assist in writing the mapping function (`drivetrain.cpp::mapping`). All other functions in the codebase were written independently by the team.
-
 Great Scott's YouTube video on 3D printed peristaltic pumps helped the team understand how peristaltic pumps work and how to implement one effectively.
 
 ---
