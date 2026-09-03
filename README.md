@@ -125,7 +125,7 @@ The robot follows the computed going array by turning and driving one cell at a 
 
 ### Chassis
 
-![Chassis](images/Chassis.png)
+![Chassis](images/Chassis.jpg)
 
 The chassis is built entirely from VEX IQ components. Non-powered omni-wheels are mounted at the front of the robot to allow smooth turning without friction. The rear wheels are powered by the two drive motors and provide traction on the tarp surface. All components are packed as tightly as possible to keep the robot within its 25cm x 25cm footprint, which must fit inside a single grid cell.
 
@@ -159,7 +159,7 @@ A peristaltic pump works by pressing rollers against a flexible tube wrapped aro
 
 #### Pump Rotor
 
-![Pump Rotor](images/pump_cad (2).png)
+![Pump Rotor](images/pump_rotor.png)
 
 The rotor holds four flanged bearings, each 14mm OD and 8mm ID and 4mm thick. A custom 3D printed spacer creates a 2mm gap between the rotor disc and the bearing face. An M4 screw passes through the spacer and through the ID of the bearing, and a hex nut locks it on the outside. The flanges on the bearings prevent the tube from slipping off its track during rotation. The rotor was initially designed with three rollers, but was changed to four because the three-roller version did not achieve the required flow rate given the weak motor. Adding a fourth roller increased the flow rate by 33%.
 
