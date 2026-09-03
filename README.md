@@ -153,6 +153,7 @@ The pump was custom designed and 3D printed. It draws water from the bottle thro
 
 ![Pump Schematic (Top)](images/pump_schematic.png)
 ![Pump Schematic (Internal)](images/shaft.png)
+![Internal Dimentions of Roto)](images/od.png)
 
 A peristaltic pump works by pressing rollers against a flexible tube wrapped around a circular track. As the rotor spins, each roller compresses the tube at one point, trapping a pocket of liquid. That pocket is pushed along the tube as the roller travels around the housing. When the roller releases, the tube springs back open and a vacuum pulls more fluid in from behind. Running the motor in reverse causes the pump to draw water upward from the bottle.
 
@@ -163,6 +164,10 @@ A peristaltic pump works by pressing rollers against a flexible tube wrapped aro
 The rotor holds four flanged bearings, each 14mm OD and 8mm ID and 4mm thick. A custom 3D printed spacer creates a 2mm gap between the rotor disc and the bearing face. An M4 screw passes through the spacer and through the ID of the bearing, and a hex nut locks it on the outside. The flanges on the bearings prevent the tube from slipping off its track during rotation. The rotor was initially designed with three rollers, but was changed to four because the three-roller version did not achieve the required flow rate given the weak motor. Adding a fourth roller increased the flow rate by 33%.
 
 #### Pump Housing
+
+![Top Housing)](images/motor_holder.png)
+![Inside of Pump)](images/inside_of_pump.png)
+![Pump Version)](images/pump_version.png)
 
 The pump housing has three parts. The bottom housing holds the rotor assembly and is countersunk to allow the bottom disc of the rotor to sit inside it while still rotating freely. The outer wall curves around the tube path and determines the compression applied to the tube. Finding the correct outer wall radius required five printed iterations. The group ultimately used calipers to measure the fully compressed width of the tube and sized the housing radius accordingly. The top housing mounts the motor and includes several connection points because the VEX IQ connection pins alone did not provide enough hold.
 
