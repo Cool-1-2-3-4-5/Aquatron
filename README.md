@@ -59,6 +59,8 @@ The robot targets a real problem: inconsistent or forgotten plant watering when 
 
 ### Phase 1: Exploration (Physical DFS)
 
+![DFS Algorithm Structure](images/dfs.png)
+
 The robot starts at grid position [0][0], which is the top-left corner of the 3x3 grid. It faces upward, away from the grid. The DFS algorithm physically rotates the robot in four directions (right, left, up, down) to check adjacent cells one at a time.
 
 For each direction, if the adjacent cell is within bounds and has not been visited:
@@ -71,6 +73,8 @@ For each direction, if the adjacent cell is within bounds and has not been visit
 After scanning all four directions from the current cell, the robot moves to each open adjacent cell one at a time and calls DFS recursively. When it reaches a dead end (all surrounding cells are either out of bounds, visited, or occupied), the recursive call returns and the robot drives back to the previous cell. This backtracking continues until every reachable cell has been visited. The robot then returns to [0][0].
 
 ### Phase 2: Path Planning (Internal Mapping DFS)
+
+![Path Planning Structure](mapping/dfs.png)
 
 Once the grid is populated, the program runs a second DFS entirely in software (no physical movement). Given a target cell coordinate from `index_finder`, the `mapping` function searches the known grid for a route from [0][0] to the target, recording each step as a direction code in a movement array. Steps that lead into dead ends are flagged in a parallel `dead` array.
 
@@ -117,7 +121,11 @@ The robot follows the computed going array by turning and driving one cell at a 
 
 ## Mechanical Design
 
+![Initial Planning of Design](images/Schematic.png)
+
 ### Chassis
+
+![Chasis](images/chassis.png)
 
 The chassis is built entirely from VEX IQ components. Non-powered omni-wheels are mounted at the front of the robot to allow smooth turning without friction. The rear wheels are powered by the two drive motors and provide traction on the tarp surface. All components are packed as tightly as possible to keep the robot within its 25cm x 25cm footprint, which must fit inside a single grid cell.
 
@@ -125,21 +133,32 @@ The VEX IQ Brain is positioned near the back of the robot, clearly separated fro
 
 ### Pump Mount and Arm
 
+![Pump mount](images/pump.png)
+
 Due to the limited size of the robot, the pump is supported by two weight-bearing vertical posts. Crossbeams were added between the posts to eliminate wobbling. A long horizontal arm extends from the top of the mount so the pump outlet tube reaches over plants without the robot needing to drive into collision range. Bracing supports the arm at an angle that bends the tube downward at the tip, allowing water to flow naturally into the pot. A spine was added along the back of the bottle to prevent it from leaning backward when the motors accelerate.
 
 ### Water Bottle
+
+![Bottle holder](images/image.png)
 
 The Oasis water bottle is mounted vertically inside the robot frame, held in place by circular grippers. It is positioned as low and as close to center as possible to minimize the height the pump must lift water.
 
 ### Peristaltic Pump
 
+![Pump](images/pump_cad.png)
+
 The pump was custom designed and 3D printed. It draws water from the bottle through suction and dispenses it downward through the arm.
 
 #### How the Pump Works
 
+![Pump Schematic (Top)](images/pump_schematic.png)
+![Pump Schematic (Internal)](images/shaft.png)
+
 A peristaltic pump works by pressing rollers against a flexible tube wrapped around a circular track. As the rotor spins, each roller compresses the tube at one point, trapping a pocket of liquid. That pocket is pushed along the tube as the roller travels around the housing. When the roller releases, the tube springs back open and a vacuum pulls more fluid in from behind. Running the motor in reverse causes the pump to draw water upward from the bottle.
 
 #### Pump Rotor
+
+![Pump Rotor)](images/pump_cad(2).png)
 
 The rotor holds four flanged bearings, each 14mm OD and 8mm ID and 4mm thick. A custom 3D printed spacer creates a 2mm gap between the rotor disc and the bearing face. An M4 screw passes through the spacer and through the ID of the bearing, and a hex nut locks it on the outside. The flanges on the bearings prevent the tube from slipping off its track during rotation. The rotor was initially designed with three rollers, but was changed to four because the three-roller version did not achieve the required flow rate given the weak motor. Adding a fourth roller increased the flow rate by 33%.
 
@@ -148,6 +167,8 @@ The rotor holds four flanged bearings, each 14mm OD and 8mm ID and 4mm thick. A 
 The pump housing has three parts. The bottom housing holds the rotor assembly and is countersunk to allow the bottom disc of the rotor to sit inside it while still rotating freely. The outer wall curves around the tube path and determines the compression applied to the tube. Finding the correct outer wall radius required five printed iterations. The group ultimately used calipers to measure the fully compressed width of the tube and sized the housing radius accordingly. The top housing mounts the motor and includes several connection points because the VEX IQ connection pins alone did not provide enough hold.
 
 #### Tube Retention Fixes
+
+![Rubber tube](images/tube.png)
 
 During testing, the motor would sometimes pull the tube instead of the water, causing the tube to curl up and stall the motor. Two fixes were applied. The tube exterior was wrapped with tape to increase its outer diameter so it could not slide freely through the pump. The tube was also hot glued onto the water bottle cap to prevent it from moving at the inlet.
 
