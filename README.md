@@ -1,4 +1,4 @@
-<img width="1207" height="787" alt="image" src="https://github.com/user-attachments/assets/41d1de82-50e3-4ebc-a01f-aa4b0e35ebf2" /># Aquatron Irrigation Robot
+# Aquatron Irrigation Robot
 
 **Platform:** VEX IQ 2nd Generation (IQ2)
 **Language:** C++
