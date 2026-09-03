@@ -125,7 +125,7 @@ The robot follows the computed going array by turning and driving one cell at a 
 
 ### Chassis
 
-![Chassis](images/chassis.jpg)
+![Chassis](images/chassis.png)
 
 The chassis is built entirely from VEX IQ components. Non-powered omni-wheels are mounted at the front of the robot to allow smooth turning without friction. The rear wheels are powered by the two drive motors and provide traction on the tarp surface. All components are packed as tightly as possible to keep the robot within its 25cm x 25cm footprint, which must fit inside a single grid cell.
 
