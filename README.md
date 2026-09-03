@@ -121,11 +121,11 @@ The robot follows the computed going array by turning and driving one cell at a 
 
 ## Mechanical Design
 
-![Initial Planning of Design](images/Schematic.png)
+![Initial Planning of Design](images/schematic.png)
 
 ### Chassis
 
-![Chassis](images/Chassis.jpg)
+![Chassis](images/chassis.jpg)
 
 The chassis is built entirely from VEX IQ components. Non-powered omni-wheels are mounted at the front of the robot to allow smooth turning without friction. The rear wheels are powered by the two drive motors and provide traction on the tarp surface. All components are packed as tightly as possible to keep the robot within its 25cm x 25cm footprint, which must fit inside a single grid cell.
 
@@ -139,7 +139,7 @@ Due to the limited size of the robot, the pump is supported by two weight-bearin
 
 ### Water Bottle
 
-![Bottle holder](images/image.png)
+![Bottle holder](images/bottle_holder.png)
 
 The Oasis water bottle is mounted vertically inside the robot frame, held in place by circular grippers. It is positioned as low and as close to center as possible to minimize the height the pump must lift water.
 
