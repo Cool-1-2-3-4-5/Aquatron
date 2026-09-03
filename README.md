@@ -74,7 +74,7 @@ After scanning all four directions from the current cell, the robot moves to eac
 
 ### Phase 2: Path Planning (Internal Mapping DFS)
 
-![Path Planning Structure](images/dfs.png)
+![Path Planning Structure](images/mapping.png)
 
 Once the grid is populated, the program runs a second DFS entirely in software (no physical movement). Given a target cell coordinate from `index_finder`, the `mapping` function searches the known grid for a route from [0][0] to the target, recording each step as a direction code in a movement array. Steps that lead into dead ends are flagged in a parallel `dead` array.
 
